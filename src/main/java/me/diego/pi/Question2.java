@@ -59,6 +59,9 @@ public class Question2 {
             JSONObject jsonObject = new JSONObject(responseBody);
             return jsonObject.getString("content");
         } catch (JSONException e) {
+            System.out.printf("Can't parse response to json with value: %d, retrying to send request", value);
+            System.out.println(responseBody);
+            request(value);
             e.printStackTrace();
         }
 
