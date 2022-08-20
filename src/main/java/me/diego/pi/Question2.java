@@ -12,7 +12,7 @@ import java.time.LocalTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question2 {
-    static AtomicInteger value = new AtomicInteger(1066000);
+    static AtomicInteger value = new AtomicInteger(1211000);
 
     public static void main(String[] args) {
 
