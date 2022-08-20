@@ -9,16 +9,28 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalTime;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question2 {
-    static AtomicInteger value = new AtomicInteger(1211000);
+    static AtomicInteger value;
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the start number: ");
+        int number = scanner.nextInt();
+        value = new AtomicInteger(number);
+
+        System.out.println("Enter the number of threads that you want to use: ");
+        int threads = scanner.nextInt();
+
+        System.out.printf("Starting with %d threads at number %d", threads, number);
+
         Runnable runnable = createRunnable(value);
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < threads; i++) {
             new Thread(runnable, "Thread - " + i).start();
         }
     }
@@ -36,8 +48,8 @@ public class Question2 {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 
-        if (response.statusCode() == 502) {
-            System.out.println("502 status retrying with value: " + value);
+        if (response.statusCode() != 200) {
+            System.out.printf("%s |Something wen wrong retrying with value: %d%n", response.statusCode(), value);
             return request(value);
         }
 
