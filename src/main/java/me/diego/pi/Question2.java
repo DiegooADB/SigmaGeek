@@ -53,6 +53,12 @@ public class Question2 {
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+            if(response.statusCode() == 429) {
+                System.out.println("rate limit reached, retrying after 3 second");
+                Thread.sleep(3000);
+                return request(value);
+            }
+
             if (response.statusCode() != 200) {
                 System.out.printf("%s | Something went wrong retrying with value: %d%n", response.statusCode(), value);
                 return request(value);
